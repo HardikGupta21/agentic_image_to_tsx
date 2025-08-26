@@ -1,51 +1,254 @@
 {
   "colors": {
-    "primary": "#007BFF",
-    "secondary": "#17A2B8",
-    "background": "#FFFFFF",
-    "text_primary": "#333333",
-    "text_secondary": "#6C757D",
-    "background_light_gray": "#F8F9FA"
-  },
-  "typography": {
-    "font_family": "sans-serif",
-    "heading_h1": "text-5xl font-extrabold text-gray-900",
-    "heading_h2": "text-3xl font-bold text-gray-900",
-    "body_text": "text-base text-gray-800",
-    "cta_text": "font-bold"
+    "primary": "#3366FF",
+    "secondary": "#00E3A2",
+    "background": "#F8F8F8"
   },
   "components": [
     {
-      "name": "button_primary_filled",
-      "style": "bg-blue-600 text-white font-bold py-3 px-6 rounded-md shadow-md hover:bg-blue-700"
+      "name": "ButtonPrimary",
+      "type": "button",
+      "backgroundColor": "primary-blue-500",
+      "textColor": "neutral-white",
+      "fontSize": "body-base",
+      "fontWeight": "font-semibold",
+      "borderRadius": "rounded-md",
+      "padding": "spacing-md vertical, spacing-xl horizontal",
+      "hover": {
+        "backgroundColor": "primary-blue-600",
+        "boxShadow": "shadow-sm"
+      }
     },
     {
-      "name": "button_secondary_outlined",
-      "style": "bg-white text-blue-600 border border-blue-600 font-bold py-3 px-6 rounded-md hover:bg-blue-50"
+      "name": "ButtonSecondary",
+      "type": "button",
+      "backgroundColor": "accent-green-500",
+      "textColor": "neutral-white",
+      "fontSize": "body-base",
+      "fontWeight": "font-semibold",
+      "borderRadius": "rounded-md",
+      "padding": "spacing-md vertical, spacing-xl horizontal",
+      "hover": {
+        "backgroundColor": "accent-green-600",
+        "boxShadow": "shadow-sm"
+      }
     },
     {
-      "name": "button_accent_filled",
-      "style": "bg-teal-500 text-white font-bold py-3 px-6 rounded-md shadow-md hover:bg-teal-600"
+      "name": "ButtonOutline",
+      "type": "button",
+      "backgroundColor": "transparent",
+      "borderColor": "primary-blue-500",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "textColor": "primary-blue-500",
+      "fontSize": "body-base",
+      "fontWeight": "font-semibold",
+      "borderRadius": "rounded-md",
+      "padding": "spacing-md vertical, spacing-xl horizontal",
+      "hover": {
+        "backgroundColor": "primary-blue-500",
+        "textColor": "neutral-white"
+      }
     },
     {
-      "name": "pricing_card_default",
-      "style": "bg-white p-8 rounded-lg shadow-md border border-gray-200"
+      "name": "InputEmail",
+      "type": "input",
+      "backgroundColor": "neutral-white",
+      "borderColor": "neutral-gray-100",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderRadius": "rounded-md",
+      "padding": "spacing-md vertical, spacing-md horizontal",
+      "placeholderColor": "neutral-gray-300",
+      "textColor": "neutral-gray-900",
+      "focus": {
+        "borderColor": "primary-blue-500",
+        "boxShadow": "0 0 0 2px rgba(51, 102, 255, 0.2)"
+      }
     },
     {
-      "name": "pricing_card_emphasized",
-      "style": "bg-blue-600 text-white p-8 rounded-lg shadow-xl"
+      "name": "PricingCardDefault",
+      "type": "card",
+      "backgroundColor": "neutral-white",
+      "borderRadius": "rounded-xl",
+      "boxShadow": "shadow-sm",
+      "padding": "spacing-xl horizontal, spacing-2xl vertical",
+      "hover": {
+        "transform": "translateY(-spacing-xs)",
+        "boxShadow": "shadow-md"
+      }
     },
     {
-      "name": "input_text",
-      "style": "border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      "name": "PricingCardFeatured",
+      "type": "card",
+      "backgroundColor": "primary-blue-500",
+      "borderRadius": "rounded-xl",
+      "boxShadow": "shadow-md",
+      "padding": "spacing-xl horizontal, spacing-2xl vertical",
+      "textColor": "neutral-white",
+      "hover": {
+        "transform": "translateY(-spacing-xs)",
+        "boxShadow": "0px 10px 25px rgba(0, 0, 0, 0.15)"
+      }
     },
     {
-      "name": "slider_track",
-      "style": "bg-blue-600 h-2 rounded-full"
+      "name": "TypographyH1",
+      "type": "typography",
+      "desktop": {
+        "fontSize": "heading-h1-desktop",
+        "fontWeight": "font-extrabold",
+        "color": "neutral-gray-900"
+      },
+      "mobile": {
+        "fontSize": "heading-h1-mobile",
+        "fontWeight": "font-extrabold",
+        "color": "neutral-gray-900"
+      }
     },
     {
-      "name": "slider_thumb",
-      "style": "w-6 h-6 bg-white rounded-full shadow-md border-2 border-blue-600"
+      "name": "TypographyH2",
+      "type": "typography",
+      "desktop": {
+        "fontSize": "heading-h2-desktop",
+        "fontWeight": "font-semibold",
+        "color": "neutral-gray-900"
+      },
+      "mobile": {
+        "fontSize": "heading-h2-mobile",
+        "fontWeight": "font-semibold",
+        "color": "neutral-gray-900"
+      },
+      "onDarkBackground": {
+        "color": "neutral-white"
+      }
+    },
+    {
+      "name": "TypographyH3",
+      "type": "typography",
+      "desktop": {
+        "fontSize": "heading-h3-desktop",
+        "fontWeight": "font-bold",
+        "color": "neutral-white"
+      },
+      "mobile": {
+        "fontSize": "heading-h3-mobile",
+        "fontWeight": "font-bold",
+        "color": "neutral-white"
+      }
+    },
+    {
+      "name": "TypographyBodyLg",
+      "type": "typography",
+      "fontSize": "body-lg",
+      "fontWeight": "font-regular",
+      "color": {
+        "light": "neutral-gray-500",
+        "dark": "neutral-white"
+      }
+    },
+    {
+      "name": "TypographyBodyBase",
+      "type": "typography",
+      "fontSize": "body-base",
+      "fontWeight": {
+        "default": "font-regular",
+        "navButton": "font-semibold"
+      },
+      "color": {
+        "light": "neutral-gray-500",
+        "dark": "neutral-white"
+      }
+    },
+    {
+      "name": "TypographyBodySm",
+      "type": "typography",
+      "fontSize": "body-sm",
+      "fontWeight": "font-regular",
+      "color": {
+        "light": "neutral-gray-500",
+        "dark": "neutral-white"
+      }
+    },
+    {
+      "name": "TypographyDisplayPrice",
+      "type": "typography",
+      "desktop": {
+        "fontSize": "display-price-desktop",
+        "fontWeight": "font-bold",
+        "color": "neutral-gray-900"
+      },
+      "mobile": {
+        "fontSize": "display-price-mobile",
+        "fontWeight": "font-bold",
+        "color": "neutral-gray-900"
+      },
+      "onDarkBackground": {
+        "color": "neutral-white"
+      }
+    },
+    {
+      "name": "IconCheckmark",
+      "type": "icon",
+      "fill": {
+        "light": "primary-blue-500",
+        "dark": "neutral-white"
+      },
+      "size": "20px"
+    },
+    {
+      "name": "IconNewsletter",
+      "type": "icon",
+      "color": "neutral-white",
+      "size": "24px"
+    },
+    {
+      "name": "LogoText",
+      "type": "text",
+      "value": "enjooy",
+      "fontWeight": "font-bold",
+      "color": "neutral-gray-900",
+      "fontSize": "heading-h2-desktop"
+    },
+    {
+      "name": "NavLink",
+      "type": "textLink",
+      "fontSize": "body-base",
+      "fontWeight": "font-semibold",
+      "color": {
+        "inactive": "neutral-gray-900",
+        "activeHover": "primary-blue-500"
+      }
+    },
+    {
+      "name": "NewsletterLabel",
+      "type": "tag",
+      "backgroundColor": "newsletter-pink-100",
+      "textColor": "neutral-gray-900"
+    },
+    {
+      "name": "SliderTrack",
+      "type": "sliderPart",
+      "backgroundColor": "primary-blue-500",
+      "height": "spacing-xs"
+    },
+    {
+      "name": "SliderThumb",
+      "type": "sliderPart",
+      "backgroundColor": "neutral-white",
+      "borderColor": "primary-blue-500",
+      "borderWidth": "2px",
+      "borderStyle": "solid",
+      "size": "spacing-xl",
+      "borderRadius": "rounded-full"
+    },
+    {
+      "name": "SliderValueDisplay",
+      "type": "sliderPart",
+      "backgroundColor": "neutral-gray-700",
+      "textColor": "neutral-white",
+      "borderRadius": "rounded-sm",
+      "padding": "spacing-xs vertical, spacing-sm horizontal",
+      "fontSize": "body-sm"
     }
   ]
 }

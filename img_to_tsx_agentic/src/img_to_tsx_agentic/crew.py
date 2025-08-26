@@ -1,7 +1,6 @@
 import yaml, os
 from pathlib import Path
 from dotenv import load_dotenv
-import google.generativeai as genai
 from crewai import Agent, Task, Crew, Process
 from .tools import (
     UIAnalysisTool,
@@ -10,8 +9,7 @@ from .tools import (
     FileManagerTool,
 )
 
-load_dotenv()  # loads GEMINI_API_KEY
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+load_dotenv()  # loads GEMINI_API_KEY (used inside tools)
 
 TOOLS = {
     "UIAnalysisTool": UIAnalysisTool(),
@@ -20,19 +18,18 @@ TOOLS = {
     "FileManagerTool": FileManagerTool(),
 }
 
-
 def _load_yaml(p: str) -> dict:
     return yaml.safe_load(Path(p).read_text(encoding="utf-8"))
-
 
 def build_crew(image_path: str) -> Crew:
     agents_cfg = _load_yaml(Path(__file__).parent / "config" / "agents.yaml")
     tasks_cfg = _load_yaml(Path(__file__).parent / "config" / "tasks.yaml")
 
-    # Build agents dynamically
-    agents = {}
-    for key, cfg in agents_cfg.items():
-        agents[key] = Agent(
+    # Provide a reliable fallback for the first tool if the LLM omits the arg
+    os.environ["IMAGE_PATH"] = str(Path(image_path).expanduser().resolve())
+
+    agents = {
+        key: Agent(
             role=cfg["role"],
             goal=cfg["goal"],
             backstory=cfg["backstory"],
@@ -40,13 +37,12 @@ def build_crew(image_path: str) -> Crew:
             verbose=True,
             allow_delegation=False,
         )
+        for key, cfg in agents_cfg.items()
+    }
 
-    # Build tasks and wire correct agents
     tasks = [
         Task(
-            description=tasks_cfg["ui_analysis_task"]["description"].format(
-                image_path=image_path
-            ),
+            description=tasks_cfg["ui_analysis_task"]["description"].format(image_path=image_path),
             expected_output=tasks_cfg["ui_analysis_task"]["expected_output"],
             agent=agents["ui_analyst"],
         ),
@@ -67,9 +63,4 @@ def build_crew(image_path: str) -> Crew:
         ),
     ]
 
-    return Crew(
-        agents=list(agents.values()),
-        tasks=tasks,
-        process=Process.sequential,
-        verbose=True,
-    )
+    return Crew(agents=list(agents.values()), tasks=tasks, process=Process.sequential, verbose=True)
