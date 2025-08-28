@@ -84,13 +84,10 @@ pip install crewai[tools] google-genai python-dotenv pillow colorthief pyyaml
 Create a `.env` file in the project root:
 
 ```ini
-GEMINI_API_KEY=your_google_ai_studio_key
-# Optional — defaults to gemini-2.5-flash
-MODEL=gemini-2.5-flash
+MODEL=gemini/gemini-2.5-flash
+GEMINI_API_KEY= "your-google-genai-key"
+IMAGE_PATH = image.png
 ```
-
-⚠️ **Important**: Do not prefix with `models/`. Use clean names like:
-`gemini-2.5-flash`, `gemini-2.5-pro`, `gemini-1.5-flash`.
 
 ## Run
 
