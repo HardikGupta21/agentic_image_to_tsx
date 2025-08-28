@@ -1,222 +1,346 @@
 import React, { useState } from 'react';
 
-// Tailwind CSS classes inferred from design_json and analysis
-const classes = {
-  container: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8',
-  sectionPaddingY: 'py-24 lg:py-32', // Approx 100-120px
-  sectionSpacingY: 'mb-24 lg:mb-32', // Approx 100-120px
-  header: 'bg-white shadow-sm sticky top-0 z-50',
-  headerContent: 'flex justify-between items-center py-4',
-  logo: 'text-neutral-gray-900 font-bold text-2xl', // Approx heading-h2-desktop for "enjooy"
-  navLink: 'text-neutral-gray-900 font-semibold hover:text-primary-blue-500',
-  buttonPrimary: 'bg-primary-blue-500 text-neutral-white font-semibold py-3 px-6 rounded-md hover:bg-primary-blue-600 shadow-sm transition-all duration-300',
-  buttonSecondary: 'bg-accent-green-500 text-neutral-white font-semibold py-3 px-6 rounded-md hover:bg-accent-green-600 shadow-sm transition-all duration-300',
-  buttonOutline: 'bg-transparent border border-primary-blue-500 text-primary-blue-500 font-semibold py-3 px-6 rounded-md hover:bg-primary-blue-500 hover:text-neutral-white transition-all duration-300',
-  inputEmail: 'w-full py-3 px-4 border border-neutral-gray-100 rounded-md placeholder-neutral-gray-300 text-neutral-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-blue-500/20 focus:border-primary-blue-500',
-  pricingCardDefault: 'bg-white rounded-xl shadow-sm p-8 lg:p-10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md',
-  pricingCardFeatured: 'bg-primary-blue-500 text-neutral-white rounded-xl shadow-md p-8 lg:p-10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg',
-  h1: 'text-heading-h1-desktop font-extrabold text-neutral-gray-900 leading-tight text-center mb-6', // Mobile variant not specified, assume desktop for now for simplicity, adjust for responsive
-  h1Subtitle: 'text-body-lg text-neutral-gray-500 text-center mb-12',
-  h2: 'text-heading-h2-desktop font-semibold text-neutral-gray-900 mb-4',
-  h3: 'text-heading-h3-desktop font-bold text-neutral-white mb-4',
-  priceDisplay: 'text-display-price-desktop font-bold text-neutral-gray-900',
-  bodyBase: 'text-body-base text-neutral-gray-500',
-  checkmarkIcon: 'w-5 h-5 mr-2 text-primary-blue-500',
-  newsletterBg: 'bg-primary-blue-500',
-  newsletterLabel: 'bg-newsletter-pink-100 text-neutral-gray-900 text-xs font-medium px-2.5 py-0.5 rounded-full inline-flex items-center',
-  newsletterIcon: 'w-6 h-6 mr-2 text-neutral-white',
-  sliderTrack: 'w-full h-1 bg-primary-blue-500 rounded-full',
-  sliderThumb: 'w-5 h-5 bg-white border-2 border-primary-blue-500 rounded-full cursor-grab',
-  sliderValueDisplay: 'bg-neutral-gray-700 text-neutral-white text-body-sm px-2 py-1 rounded-sm'
-};
+// --- Design System Color Mappings (inferred from analysis and DS) ---
+// These will be applied directly as Tailwind classes.
+// Primary: #3B82F6 -> blue-600
+// Secondary: #2DD4BF -> teal-400
+// Background: #F9FAFB -> gray-50
+// Dark Text: #1F2937 -> gray-900
+// Medium Gray Text: #4B5563 -> gray-600
+// Light Gray Border: #E5E7EB -> gray-200
+// Pro Plan Card Background: #2563EB -> blue-700
+// Pricing Tag BG: #ECFEFF -> cyan-50 (or similar light cyan)
+// Pricing Tag Text: #06B6D4 -> cyan-600
+// Newsletter Tag BG: #FCE7F3 -> pink-100 (or similar light pink)
+// Newsletter Tag Text: #EC4899 -> pink-600
 
-const pricingPlans = [
-  {
-    title: 'Basic Plan',
-    price: '$15/month',
-    features: [
-      'Access to basic features',
-      '20 GB Storage',
-      'Basic Reporting',
-      'Email Support'
-    ],
-    isFeatured: false,
-  },
-  {
-    title: 'Pro Plan',
-    price: '$45/month',
-    features: [
-      'All Basic features',
-      '100 GB Storage',
-      'Advanced Reporting',
-      'Priority Email Support',
-      'Phone Support'
-    ],
-    isFeatured: true,
-  },
-  {
-    title: 'Business Plan',
-    price: '$75/month',
-    features: [
-      'All Pro features',
-      '500 GB Storage',
-      'Custom Reporting',
-      '24/7 Phone Support',
-      'Dedicated Account Manager'
-    ],
-    isFeatured: false,
-  },
-  {
-    title: 'Enterprise Plan',
-    price: '$120/month',
-    features: [
-      'All Business features',
-      'Unlimited Storage',
-      'Real-time Analytics',
-      '24/7 VIP Support',
-      'Custom Integrations',
-    ],
-    isFeatured: false,
-  },
-];
+// --- Interfaces ---
 
-const PricingPlanPage: React.FC = () => {
-  const [users, setUsers] = useState(250);
+interface NavLinkProps {
+  label: string;
+  href: string;
+}
+
+interface FeatureItemProps {
+  text: string;
+}
+
+interface PricingCardData {
+  planName: string;
+  price: number;
+  description: string;
+  features: string[];
+  isHighlighted?: boolean;
+}
+
+// --- Icons (Simple SVGs) ---
+
+const CheckIcon: React.FC = () => (
+  <svg className="w-5 h-5 text-blue-600 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+  </svg>
+);
+
+const EnvelopeIcon: React.FC = () => (
+  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+  </svg>
+);
+
+const LogoIcon: React.FC = () => (
+  <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="10" />
+  </svg>
+);
+
+// --- Component Building Blocks (Design System Components) ---
+
+const NavLink: React.FC<NavLinkProps> = ({ label, href }) => (
+  <a
+    href={href}
+    className="NavLink text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200"
+  >
+    {label}
+  </a>
+);
+
+const ButtonPrimary: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className, ...props }) => (
+  <button
+    className={`ButtonPrimary bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors duration-200 ${className || ''}`}
+    {...props}
+  >
+    {children}
+  </button>
+);
+
+const ButtonSecondary: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className, ...props }) => (
+  <button
+    className={`ButtonSecondary bg-teal-400 text-gray-900 px-6 py-3 rounded-lg font-bold hover:bg-teal-300 transition-colors duration-200 ${className || ''}`}
+    {...props}
+  >
+    {children}
+  </button>
+);
+
+const Tag: React.FC<{ children: React.ReactNode; className?: string; icon?: React.ReactNode }> = ({ children, className, icon }) => (
+  <span
+    className={`Tag inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold uppercase ${className || ''}`}
+  >
+    {icon}
+    {children}
+  </span>
+);
+
+const Headline: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <h1
+    className={`Headline text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight ${className || ''}`}
+  >
+    {children}
+  </h1>
+);
+
+const Subheadline: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <p
+    className={`Subheadline text-lg sm:text-xl text-gray-600 mt-4 max-w-2xl mx-auto ${className || ''}`}
+  >
+    {children}
+  </p>
+);
+
+const BodyText: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <p className={`BodyText text-base text-gray-600 ${className || ''}`}>
+    {children}
+  </p>
+);
+
+const InputText: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({ className, ...props }) => (
+  <input
+    type="email"
+    className={`InputText w-full px-5 py-3 rounded-lg text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors duration-200 ${className || ''}`}
+    {...props}
+  />
+);
+
+const FeatureItem: React.FC<FeatureItemProps> = ({ text }) => (
+  <li className="FeatureItem flex items-center mt-3 text-gray-600">
+    <CheckIcon />
+    <span>{text}</span>
+  </li>
+);
+
+const FeatureList: React.FC<{ features: string[] }> = ({ features }) => (
+  <ul className="FeatureList mt-6 space-y-2">
+    {features.map((feature, index) => (
+      <FeatureItem key={index} text={feature} />
+    ))}
+  </ul>
+);
+
+const PlanName: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <h3 className={`PlanName text-2xl font-bold ${className || ''}`}>
+    {children}
+  </h3>
+);
+
+const PriceDisplay: React.FC<{ price: number; className?: string }> = ({ price, className }) => (
+  <p className={`PriceDisplay mt-4 text-5xl font-extrabold ${className || ''}`}>
+    ${price}
+    <span className="text-xl font-medium text-gray-500">/month</span>
+  </p>
+);
+
+const UserSlider: React.FC = () => {
+  const [users, setUsers] = useState(250); // Default from analysis
 
   return (
-    <div className="bg-background min-h-screen font-sans">
+    <div className="flex items-center justify-center gap-4 mt-12 w-full max-w-lg mx-auto">
+      <input
+        type="range"
+        min="10"
+        max="1000"
+        step="10"
+        value={users}
+        onChange={(e) => setUsers(Number(e.target.value))}
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:bg-blue-600 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:bg-blue-600 [&::-moz-range-thumb]:rounded-full"
+      />
+      <div className="relative">
+        <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-gray-800 text-white text-sm font-semibold rounded-md shadow-lg whitespace-nowrap">
+          {users} users
+        </span>
+        {/* Placeholder for actual slider handle design if needed */}
+      </div>
+    </div>
+  );
+};
+
+const PricingCard: React.FC<PricingCardData> = ({ planName, price, description, features, isHighlighted }) => (
+  <div
+    className={`PricingCard p-8 rounded-xl shadow-lg border flex flex-col transition-all duration-300
+      ${isHighlighted
+        ? 'bg-blue-700 text-white border-blue-700 shadow-2xl scale-105'
+        : 'bg-white text-gray-900 border-gray-200 hover:shadow-xl'
+      }`}
+  >
+    <PlanName className={isHighlighted ? 'text-white' : 'text-gray-900'}>
+      {planName}
+    </PlanName>
+    <PriceDisplay price={price} className={isHighlighted ? 'text-white' : 'text-gray-900'}>
+      <span className={isHighlighted ? 'text-blue-200' : 'text-gray-500'}>/month</span>
+    </PriceDisplay>
+    <BodyText className={`mt-2 ${isHighlighted ? 'text-blue-100' : 'text-gray-600'}`}>
+      {description}
+    </BodyText>
+
+    <ul className="FeatureList mt-6 space-y-2">
+      {features.map((feature, index) => (
+        <li key={index} className={`flex items-center mt-3 ${isHighlighted ? 'text-blue-100' : 'text-gray-600'}`}>
+          <CheckIcon /> {/* Icon color overridden by parent if necessary for highlight */}
+          <span>{feature}</span>
+        </li>
+      ))}
+    </ul>
+
+    {isHighlighted ? (
+      <ButtonSecondary className="mt-auto block w-full">
+        Upgrade Now
+      </ButtonSecondary>
+    ) : (
+      <ButtonPrimary className="mt-auto block w-full">
+        Get Started
+      </ButtonPrimary>
+    )}
+  </div>
+);
+
+
+// --- Main Page Component ---
+const HomePage: React.FC = () => {
+  const pricingPlans: PricingCardData[] = [
+    {
+      planName: "Basic Plan",
+      price: 19,
+      description: "Ideal for small teams and startups getting started.",
+      features: [
+        "10 Team Members",
+        "2GB Cloud Storage",
+        "Basic Analytics",
+        "Email Support",
+        "Dashboard Access",
+      ],
+    },
+    {
+      planName: "Pro Plan",
+      price: 39,
+      description: "Perfect for growing businesses needing more power.",
+      features: [
+        "Unlimited Team Members",
+        "10GB Cloud Storage",
+        "Advanced Analytics",
+        "Priority Email Support",
+        "Customizable Dashboard",
+        "API Access",
+      ],
+      isHighlighted: true,
+    },
+    {
+      planName: "Business Plan",
+      price: 99,
+      description: "Designed for established companies with higher demands.",
+      features: [
+        "Unlimited Team Members",
+        "50GB Cloud Storage",
+        "Real-time Analytics",
+        "24/7 Phone & Email Support",
+        "Dedicated Account Manager",
+        "Custom Integrations",
+      ],
+    },
+    {
+      planName: "Enterprise Plan",
+      price: 249,
+      description: "Comprehensive solution for large organizations.",
+      features: [
+        "Unlimited Team Members",
+        "Unlimited Cloud Storage",
+        "Advanced Security Features",
+        "Dedicated Technical Support",
+        "On-premise Deployment",
+        "SLA Guarantee",
+      ],
+    },
+  ];
+
+  return (
+    <div className="bg-gray-50 font-sans antialiased text-gray-900">
       {/* Header */}
-      <header className={classes.header}>
-        <div className={classes.container}>
-          <div className={classes.headerContent}>
-            <a href="#" className={classes.logo}>enjooy</a>
-            <nav className="hidden md:flex space-x-8 items-center">
-              <a href="#" className={classes.navLink}>Home</a>
-              <a href="#" className={classes.navLink}>Blog</a>
-              <a href="#" className={classes.navLink}>Service</a>
-              <a href="#" className={classes.navLink}>About</a>
-              <a href="#" className={classes.navLink}>Contact</a>
-              <button className={classes.buttonPrimary}>Get Started</button>
-            </nav>
-            <div className="md:hidden">
-              {/* Hamburger menu icon placeholder */}
-              <svg className="w-6 h-6 text-neutral-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            </div>
+      <header className="Header sticky top-0 z-50 bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <div className="Logo flex items-center">
+            <LogoIcon className="text-blue-600" />
+            <span className="font-bold text-2xl">enjoyy</span>
           </div>
+          <nav className="Navigation hidden md:flex gap-x-8">
+            <NavLink label="Home" href="#" />
+            <NavLink label="Blog" href="#" />
+            <NavLink label="Service" href="#" />
+            <NavLink label="About" href="#" />
+            <NavLink label="Contact" href="#" />
+          </nav>
+          <ButtonPrimary className="hidden md:block">Get Started</ButtonPrimary>
+          {/* Mobile Menu Icon (Hamburger) - Not fully implemented, but placeholder for responsiveness */}
+          <button className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+          </button>
         </div>
       </header>
 
       <main>
-        {/* Pricing Plan Section */}
-        <section className={`${classes.sectionPaddingY} ${classes.sectionSpacingY}`}>
-          <div className={classes.container}>
-            <h1 className={classes.h1}>
-              Choose the Perfect Plan for Your Needs
-            </h1>
-            <p className={classes.h1Subtitle}>
-              Access our comprehensive features designed to scale with your business. Select a plan that fits your current requirements and grow with us.
-            </p>
+        {/* Pricing Section */}
+        <section className="PricingSection py-16 md:py-24 text-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Tag className="bg-cyan-50/50 text-cyan-600">Pricing plan</Tag>
+          <Headline className="mt-4">
+            Choose the Perfect Plan for Your Needs
+          </Headline>
+          <Subheadline>
+            Our flexible pricing plans are designed to help businesses of all sizes succeed. Find the ideal solution tailored to your requirements.
+          </Subheadline>
 
-            {/* User Slider & Button */}
-            <div className="flex flex-col items-center mb-16">
-              <div className="relative w-full max-w-md mb-8">
-                <div className="flex justify-between items-center mb-4">
-                  <span className={`${classes.bodyBase} font-semibold text-neutral-gray-900`}>Users:</span>
-                  <span className={classes.sliderValueDisplay}>{users} users</span>
-                </div>
-                {/* Mock Slider - Actual slider implementation would be more complex */}
-                <div className="relative flex items-center h-1 bg-gray-200 rounded-full">
-                  <div className={classes.sliderTrack} style={{ width: `${(users / 1000) * 100}%` }}></div>
-                  <div
-                    className={classes.sliderThumb}
-                    style={{ left: `calc(${(users / 1000) * 100}% - 10px)`, position: 'absolute' }} // Adjusting for thumb width
-                  ></div>
-                </div>
-              </div>
-              <button className={classes.buttonPrimary}>Adjust Plan</button>
-            </div>
+          <UserSlider />
 
-            {/* Pricing Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {pricingPlans.map((plan, index) => (
-                <div
-                  key={index}
-                  className={plan.isFeatured ? classes.pricingCardFeatured : classes.pricingCardDefault}
-                >
-                  <h2 className={plan.isFeatured ? `${classes.h2} !text-neutral-white` : classes.h2}>
-                    {plan.title}
-                  </h2>
-                  <p className={plan.isFeatured ? `${classes.priceDisplay} !text-neutral-white` : classes.priceDisplay}>
-                    {plan.price}
-                  </p>
-                  <ul className="mt-8 space-y-3">
-                    {plan.features.map((feature, fIndex) => (
-                      <li key={fIndex} className={`flex items-start ${plan.isFeatured ? 'text-neutral-white' : classes.bodyBase}`}>
-                        {/* Checkmark Icon */}
-                        <svg
-                          className={`flex-shrink-0 w-5 h-5 mr-2 ${plan.isFeatured ? 'text-neutral-white' : classes.checkmarkIcon}`}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-10">
-                    <button className={plan.isFeatured ? classes.buttonSecondary : classes.buttonOutline}>
-                      Choose Plan
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="PricingCards grid gap-6 mt-16 md:grid-cols-2 lg:grid-cols-4">
+            {pricingPlans.map((plan, index) => (
+              <PricingCard key={index} {...plan} />
+            ))}
           </div>
         </section>
 
-        {/* Newsletter Subscription Section */}
-        <section className={`${classes.newsletterBg} ${classes.sectionPaddingY}`}>
-          <div className={classes.container}>
-            <div className="flex flex-col lg:flex-row items-center justify-between text-center lg:text-left">
-              <div className="mb-10 lg:mb-0 lg:mr-12">
-                <span className={classes.newsletterLabel}>
-                  {/* Newsletter Bell/Mail Icon */}
-                  <svg
-                    className={classes.newsletterIcon}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                    />
-                  </svg>
-                  Newsletter
-                </span>
-                <h3 className={classes.h3}>Subscribe to our Newsletter</h3>
-                <p className={`${classes.bodyLg} !text-neutral-white mt-4`}>
-                  Stay updated with our latest features and exclusive offers. Join our community!
-                </p>
-              </div>
-              <div className="w-full lg:w-auto flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className={classes.inputEmail}
-                />
-                <button className={classes.buttonPrimary}>Subscribe</button>
-              </div>
-            </div>
+        {/* Newsletter Section */}
+        <section className="NewsletterSection bg-blue-600 text-white py-16 md:py-24 mt-24">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <Tag className="bg-pink-100/50 text-pink-600" icon={<EnvelopeIcon />}>
+              Newsletter
+            </Tag>
+            <Headline className="mt-4 text-white">
+              Subscribe to our Newsletter
+            </Headline>
+            <BodyText className="mt-4 text-blue-100">
+              Stay up-to-date with our latest news, exclusive offers, and expert insights. Join our community!
+            </BodyText>
+            <form className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <label htmlFor="email-input" className="sr-only">Email address</label>
+              <InputText
+                id="email-input"
+                placeholder="Enter your email"
+                aria-label="Enter your email"
+                className="w-full sm:w-80"
+              />
+              <ButtonSecondary type="submit" className="w-full sm:w-auto">
+                Subscribe
+              </ButtonSecondary>
+            </form>
           </div>
         </section>
       </main>
@@ -224,4 +348,4 @@ const PricingPlanPage: React.FC = () => {
   );
 };
 
-export default PricingPlanPage;
+export default HomePage;

@@ -5,12 +5,8 @@ from typing import Optional, List, Type
 from pathlib import Path
 from pydantic import BaseModel, Field
 from PIL import Image
-
-# New Google Gen AI SDK
 from google import genai
 from google.genai import types
-
-# CrewAI BaseTool
 from crewai.tools import BaseTool
 
 

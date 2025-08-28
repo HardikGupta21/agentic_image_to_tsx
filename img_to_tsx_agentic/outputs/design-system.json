@@ -1,254 +1,60 @@
 {
   "colors": {
-    "primary": "#3366FF",
-    "secondary": "#00E3A2",
-    "background": "#F8F8F8"
+    "primary": "#3B82F6",
+    "secondary": "#2DD4BF",
+    "background": "#F9FAFB"
   },
   "components": [
     {
-      "name": "ButtonPrimary",
-      "type": "button",
-      "backgroundColor": "primary-blue-500",
-      "textColor": "neutral-white",
-      "fontSize": "body-base",
-      "fontWeight": "font-semibold",
-      "borderRadius": "rounded-md",
-      "padding": "spacing-md vertical, spacing-xl horizontal",
-      "hover": {
-        "backgroundColor": "primary-blue-600",
-        "boxShadow": "shadow-sm"
-      }
+      "name": "Header"
     },
     {
-      "name": "ButtonSecondary",
-      "type": "button",
-      "backgroundColor": "accent-green-500",
-      "textColor": "neutral-white",
-      "fontSize": "body-base",
-      "fontWeight": "font-semibold",
-      "borderRadius": "rounded-md",
-      "padding": "spacing-md vertical, spacing-xl horizontal",
-      "hover": {
-        "backgroundColor": "accent-green-600",
-        "boxShadow": "shadow-sm"
-      }
+      "name": "Logo"
     },
     {
-      "name": "ButtonOutline",
-      "type": "button",
-      "backgroundColor": "transparent",
-      "borderColor": "primary-blue-500",
-      "borderWidth": "1px",
-      "borderStyle": "solid",
-      "textColor": "primary-blue-500",
-      "fontSize": "body-base",
-      "fontWeight": "font-semibold",
-      "borderRadius": "rounded-md",
-      "padding": "spacing-md vertical, spacing-xl horizontal",
-      "hover": {
-        "backgroundColor": "primary-blue-500",
-        "textColor": "neutral-white"
-      }
+      "name": "Navigation"
     },
     {
-      "name": "InputEmail",
-      "type": "input",
-      "backgroundColor": "neutral-white",
-      "borderColor": "neutral-gray-100",
-      "borderWidth": "1px",
-      "borderStyle": "solid",
-      "borderRadius": "rounded-md",
-      "padding": "spacing-md vertical, spacing-md horizontal",
-      "placeholderColor": "neutral-gray-300",
-      "textColor": "neutral-gray-900",
-      "focus": {
-        "borderColor": "primary-blue-500",
-        "boxShadow": "0 0 0 2px rgba(51, 102, 255, 0.2)"
-      }
+      "name": "NavLink"
     },
     {
-      "name": "PricingCardDefault",
-      "type": "card",
-      "backgroundColor": "neutral-white",
-      "borderRadius": "rounded-xl",
-      "boxShadow": "shadow-sm",
-      "padding": "spacing-xl horizontal, spacing-2xl vertical",
-      "hover": {
-        "transform": "translateY(-spacing-xs)",
-        "boxShadow": "shadow-md"
-      }
+      "name": "ButtonPrimary"
     },
     {
-      "name": "PricingCardFeatured",
-      "type": "card",
-      "backgroundColor": "primary-blue-500",
-      "borderRadius": "rounded-xl",
-      "boxShadow": "shadow-md",
-      "padding": "spacing-xl horizontal, spacing-2xl vertical",
-      "textColor": "neutral-white",
-      "hover": {
-        "transform": "translateY(-spacing-xs)",
-        "boxShadow": "0px 10px 25px rgba(0, 0, 0, 0.15)"
-      }
+      "name": "Tag"
     },
     {
-      "name": "TypographyH1",
-      "type": "typography",
-      "desktop": {
-        "fontSize": "heading-h1-desktop",
-        "fontWeight": "font-extrabold",
-        "color": "neutral-gray-900"
-      },
-      "mobile": {
-        "fontSize": "heading-h1-mobile",
-        "fontWeight": "font-extrabold",
-        "color": "neutral-gray-900"
-      }
+      "name": "Headline"
     },
     {
-      "name": "TypographyH2",
-      "type": "typography",
-      "desktop": {
-        "fontSize": "heading-h2-desktop",
-        "fontWeight": "font-semibold",
-        "color": "neutral-gray-900"
-      },
-      "mobile": {
-        "fontSize": "heading-h2-mobile",
-        "fontWeight": "font-semibold",
-        "color": "neutral-gray-900"
-      },
-      "onDarkBackground": {
-        "color": "neutral-white"
-      }
+      "name": "Subheadline"
     },
     {
-      "name": "TypographyH3",
-      "type": "typography",
-      "desktop": {
-        "fontSize": "heading-h3-desktop",
-        "fontWeight": "font-bold",
-        "color": "neutral-white"
-      },
-      "mobile": {
-        "fontSize": "heading-h3-mobile",
-        "fontWeight": "font-bold",
-        "color": "neutral-white"
-      }
+      "name": "UserSlider"
     },
     {
-      "name": "TypographyBodyLg",
-      "type": "typography",
-      "fontSize": "body-lg",
-      "fontWeight": "font-regular",
-      "color": {
-        "light": "neutral-gray-500",
-        "dark": "neutral-white"
-      }
+      "name": "PricingCard"
     },
     {
-      "name": "TypographyBodyBase",
-      "type": "typography",
-      "fontSize": "body-base",
-      "fontWeight": {
-        "default": "font-regular",
-        "navButton": "font-semibold"
-      },
-      "color": {
-        "light": "neutral-gray-500",
-        "dark": "neutral-white"
-      }
+      "name": "PlanName"
     },
     {
-      "name": "TypographyBodySm",
-      "type": "typography",
-      "fontSize": "body-sm",
-      "fontWeight": "font-regular",
-      "color": {
-        "light": "neutral-gray-500",
-        "dark": "neutral-white"
-      }
+      "name": "PriceDisplay"
     },
     {
-      "name": "TypographyDisplayPrice",
-      "type": "typography",
-      "desktop": {
-        "fontSize": "display-price-desktop",
-        "fontWeight": "font-bold",
-        "color": "neutral-gray-900"
-      },
-      "mobile": {
-        "fontSize": "display-price-mobile",
-        "fontWeight": "font-bold",
-        "color": "neutral-gray-900"
-      },
-      "onDarkBackground": {
-        "color": "neutral-white"
-      }
+      "name": "FeatureList"
     },
     {
-      "name": "IconCheckmark",
-      "type": "icon",
-      "fill": {
-        "light": "primary-blue-500",
-        "dark": "neutral-white"
-      },
-      "size": "20px"
+      "name": "FeatureItem"
     },
     {
-      "name": "IconNewsletter",
-      "type": "icon",
-      "color": "neutral-white",
-      "size": "24px"
+      "name": "ButtonSecondary"
     },
     {
-      "name": "LogoText",
-      "type": "text",
-      "value": "enjooy",
-      "fontWeight": "font-bold",
-      "color": "neutral-gray-900",
-      "fontSize": "heading-h2-desktop"
+      "name": "BodyText"
     },
     {
-      "name": "NavLink",
-      "type": "textLink",
-      "fontSize": "body-base",
-      "fontWeight": "font-semibold",
-      "color": {
-        "inactive": "neutral-gray-900",
-        "activeHover": "primary-blue-500"
-      }
-    },
-    {
-      "name": "NewsletterLabel",
-      "type": "tag",
-      "backgroundColor": "newsletter-pink-100",
-      "textColor": "neutral-gray-900"
-    },
-    {
-      "name": "SliderTrack",
-      "type": "sliderPart",
-      "backgroundColor": "primary-blue-500",
-      "height": "spacing-xs"
-    },
-    {
-      "name": "SliderThumb",
-      "type": "sliderPart",
-      "backgroundColor": "neutral-white",
-      "borderColor": "primary-blue-500",
-      "borderWidth": "2px",
-      "borderStyle": "solid",
-      "size": "spacing-xl",
-      "borderRadius": "rounded-full"
-    },
-    {
-      "name": "SliderValueDisplay",
-      "type": "sliderPart",
-      "backgroundColor": "neutral-gray-700",
-      "textColor": "neutral-white",
-      "borderRadius": "rounded-sm",
-      "padding": "spacing-xs vertical, spacing-sm horizontal",
-      "fontSize": "body-sm"
+      "name": "InputText"
     }
   ]
 }
